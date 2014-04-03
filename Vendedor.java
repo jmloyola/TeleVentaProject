@@ -49,8 +49,8 @@ public class Vendedor {
 					System.out.println();
 					String[] listaArticulos = stub.listarArticulos();
 					
-					for (int i=0; i < listarArticulos.length(); i++){
-						System.out.println(" > " + listarArticulos[i]);
+					for (int i=0; i < listaArticulos.length; i++){
+						System.out.println(" > " + listaArticulos[i]);
 					}
 					break;
 				}
@@ -59,11 +59,11 @@ public class Vendedor {
 					System.out.println();
 					System.out.println("Ingrese la información relativa a la nueva venta:");
 					
-					Articulo[] listaArticulosVenta;
+					ArticuloVenta[] listaArticulosVenta;
 					
 					LinkedList lista = new LinkedList();
 					
-					Articulo articuloAuxiliar;
+					ArticuloVenta articuloVentaAuxiliar;
 					
 					String nombreArticulo;
 					int cantArticulos;
@@ -90,8 +90,8 @@ public class Vendedor {
 					System.out.println("Cantidad Deseada: ");
 					cantArticulos = scanner.nextInt();
 					
-					articuloAuxiliar = new Articulo(nombreArticulo, cantArticulos);
-					lista.add(articuloAuxiliar);
+					articuloVentaAuxiliar = new ArticuloVenta(nombreArticulo, cantArticulos);
+					lista.add(articuloVentaAuxiliar);
 					
 					System.out.println("-  -  -  -  -  -  -  -  -  -  -  -  -");
 					System.out.println("Desea seguir ingresando articulos a la venta (ingrese 's'): ");
@@ -103,15 +103,15 @@ public class Vendedor {
 						System.out.println("Cantidad Deseada: ");
 						cantArticulos = scanner.nextInt();
 						
-						articuloAuxiliar = new Articulo(nombreArticulo, cantArticulos);
-						lista.add(articuloAuxiliar);
+						articuloVentaAuxiliar = new ArticuloVenta(nombreArticulo, cantArticulos);
+						lista.add(articuloVentaAuxiliar);
 						
 						System.out.println("-  -  -  -  -  -  -  -  -  -  -  -  -");
 						System.out.println("Desea seguir ingresando articulos a la venta (ingrese 's'): ");
-						char caracter = (char) System.in.read();
+						caracter = (char) System.in.read();
 					}					
 					System.out.println();
-					listaArticulosVenta = lista.toArray();
+					listaArticulosVenta = (ArticuloVenta[]) lista.toArray();
 					
 					Venta nuevaVenta = new Venta(nombreComprador, apellidoComprador, numeroDocumentoComprador, añoVenta, mesVenta, diaVenta, listaArticulosVenta);
 					
@@ -128,7 +128,7 @@ public class Vendedor {
 					System.out.println("Las ventas que usted ha realizado son:");
 					Venta[] ventas = stub.listarVentas();
 					
-					for (int i=0; i < ventas.length(); i++){
+					for (int i=0; i < ventas.length; i++){
 						System.out.println("------------------------------------------");
 						ventas[i].imprimir();
 					}

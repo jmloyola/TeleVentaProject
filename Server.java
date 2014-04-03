@@ -12,39 +12,27 @@ public class Server implements InterfazServer {
 	
     public Server() throws java.rmi.RemoteException{}
 
-    public String sayHello() {
-	return "HOLA MUNDO EN RMI ;) ";
+    public float nuevaVenta(InterfazVenta venta) throws java.rmi.RemoteException{
+        System.out.println("Retornando monto de la venta...");
+        return 390;
     }
-
-    public int sumar(int a , int b)throws java.rmi.RemoteException{
-    	return (a+b);
-    }	
     
-    public void incrementarValor()throws java.rmi.RemoteException{
-		valor++;
-		
-    }	
-    
-    public int getValor()throws java.rmi.RemoteException{
-		return(valor);
+    public String[] listarArticulos() throws java.rmi.RemoteException{
+        System.out.println("Listando articulos...");
+        String[] retorno = {"articulo 1", "articulo 2", "articulo 3"};
+        return retorno;
     }
-
-
-    public void noCambiarObjeto(InterfazOtraPersona op)throws java.rmi.RemoteException{
-    	System.out.println("CAMBIANDO NOMBRE DE (" + op.getNombre() + ") a (JHON VON NEUMANN)");
-	op.setNombre("JHON VON NEUMANN");
-    }	
-     
-
-    public void cambiarObjeto (InterfazPersona p)throws java.rmi.RemoteException{
-    	System.out.println("CAMBIANDO NOMBRE DE (" + p.getNombre() + ") a (ALAN TURING)");
-	p.setNombre("ALAN TURING");
-    }	    
-
-
+    
+    public Venta[] listarVentas()throws java.rmi.RemoteException{
+        System.out.println("Listando ventas...");
+        ArticuloVenta articulo = new ArticuloVenta("auto coleccionable",3);
+        ArticuloVenta[] articuloAux = {articulo};
+        Venta ventaAux = new Venta("Juan", "Perez", "3535353", 2014, 4, 3, articuloAux);
+        Venta[] retornoVentas = {ventaAux};
+        return retornoVentas;
+    }
     public static void main(String args[]) {
 	
-
 	try {
 	    Server obj = new Server();
 	    InterfazServer stub = (InterfazServer) UnicastRemoteObject.exportObject(obj, 0);
