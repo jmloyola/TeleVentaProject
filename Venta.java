@@ -10,15 +10,15 @@ public class Venta implements InterfazVenta {
 	private String apellidoComprador;
 	private String numeroDocumentoComprador;
 	
-	private int añoVenta;
+	private int anioVenta;
 	private int mesVenta;
 	private int diaVenta;
 
-    public Venta(String nombreComprador, String apellidoComprador, String numeroDocumentoComprador, int añoVenta, int mesVenta, int diaVenta, ArticuloVenta[] listaArticulosVenta) throws RemoteException {
+    public Venta(String nombreComprador, String apellidoComprador, String numeroDocumentoComprador, int anioVenta, int mesVenta, int diaVenta, ArticuloVenta[] listaArticulosVenta) throws RemoteException {
     	this.nombreComprador = nombreComprador;
         this.apellidoComprador = apellidoComprador;
         this.numeroDocumentoComprador = numeroDocumentoComprador;
-        this.añoVenta = añoVenta;
+        this.anioVenta = anioVenta;
         this.mesVenta = mesVenta;
         this.diaVenta = diaVenta;
         this.listaArticulosVenta = listaArticulosVenta;
@@ -56,12 +56,12 @@ public class Venta implements InterfazVenta {
         this.numeroDocumentoComprador = numeroDocumentoComprador;
     }
 
-    public int getAñoVenta() {
-        return añoVenta;
+    public int getAnioVenta() {
+        return anioVenta;
     }
 
-    public void setAñoVenta(int añoVenta) {
-        this.añoVenta = añoVenta;
+    public void setAnioVenta(int anioVenta) {
+        this.anioVenta = anioVenta;
     }
 
     public int getMesVenta() {
@@ -88,7 +88,7 @@ public class Venta implements InterfazVenta {
         System.out.println("Numero documento comprador: " + this.numeroDocumentoComprador);
         System.out.println("Dia de la venta: " + this.diaVenta);
         System.out.println("Mes de la venta: " + this.mesVenta);
-        System.out.println("Año de la venta: " + this.añoVenta);
+        System.out.println("Anio de la venta: " + this.anioVenta);
         
         for (int i=0; i < listaArticulosVenta.length; i++){
             listaArticulosVenta[i].imprimir();

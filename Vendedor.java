@@ -14,7 +14,7 @@ public class Vendedor {
 	try {
 	    
 	    Registry registry = LocateRegistry.getRegistry("localhost",3001);
-	    InterfazServer stub = (InterfazServer) registry.lookup("Servidor");
+	    InterfazServer stub = (InterfazServer) registry.lookup("Server");
 	    
 		String nombreVendedor = (args.length < 1) ? null : args[0];
 		
@@ -73,7 +73,7 @@ public class Vendedor {
 					String numeroDocumentoComprador;
 					
 					Calendar fechaActual = new GregorianCalendar();
-					int añoVenta = fechaActual.get(Calendar.YEAR);
+					int anioVenta = fechaActual.get(Calendar.YEAR);
 					int mesVenta = fechaActual.get(Calendar.MONTH);
 					int diaVenta = fechaActual.get(Calendar.DAY_OF_MONTH);
 					
@@ -88,32 +88,38 @@ public class Vendedor {
 					System.out.println("Nombre Articulo: ");
 					nombreArticulo = scanner.nextLine();
 					System.out.println("Cantidad Deseada: ");
-					cantArticulos = scanner.nextInt();
+					cantArticulos = Integer.parseInt(scanner.nextLine()); ///http://stackoverflow.com/questions/13102045/skipping-nextline-after-use-nextint
 					
 					articuloVentaAuxiliar = new ArticuloVenta(nombreArticulo, cantArticulos);
 					lista.add(articuloVentaAuxiliar);
 					
 					System.out.println("-  -  -  -  -  -  -  -  -  -  -  -  -");
 					System.out.println("Desea seguir ingresando articulos a la venta (ingrese 's'): ");
-					char caracter = (char) System.in.read();
+					String caracter = scanner.nextLine();
 					
-					while (caracter == 's'){
+					while (caracter.equals("s")){
 						System.out.println("Nombre Articulo: ");
 						nombreArticulo = scanner.nextLine();
 						System.out.println("Cantidad Deseada: ");
-						cantArticulos = scanner.nextInt();
+						cantArticulos = Integer.parseInt(scanner.nextLine());
 						
 						articuloVentaAuxiliar = new ArticuloVenta(nombreArticulo, cantArticulos);
 						lista.add(articuloVentaAuxiliar);
 						
 						System.out.println("-  -  -  -  -  -  -  -  -  -  -  -  -");
 						System.out.println("Desea seguir ingresando articulos a la venta (ingrese 's'): ");
-						caracter = (char) System.in.read();
+						caracter = scanner.nextLine();
 					}					
 					System.out.println();
-					listaArticulosVenta = (ArticuloVenta[]) lista.toArray();
 					
-					Venta nuevaVenta = new Venta(nombreComprador, apellidoComprador, numeroDocumentoComprador, añoVenta, mesVenta, diaVenta, listaArticulosVenta);
+					listaArticulosVenta = new ArticuloVenta[lista.size()];
+					
+					for (int j=0; j < lista.size(); j++){
+						listaArticulosVenta[j] = (ArticuloVenta)lista.peek();
+						lista.remove();
+					}
+										
+					Venta nuevaVenta = new Venta(nombreComprador, apellidoComprador, numeroDocumentoComprador, anioVenta, mesVenta, diaVenta, listaArticulosVenta);
 					
 					float montoTotalVenta = stub.nuevaVenta(nuevaVenta);
 					
