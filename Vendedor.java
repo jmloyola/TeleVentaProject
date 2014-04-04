@@ -35,7 +35,7 @@ public class Vendedor {
 			System.out.println("   (2) Listar mis ventas");
 			System.out.println("   (3) Salir");
 			System.out.println();
-			System.out.println("Ha ingresado la opción: ");
+			System.out.println("Ha ingresado la opcion: ");
 			
 			Scanner sc = new Scanner(System.in);
 			int opcion = sc.nextInt();
@@ -57,7 +57,7 @@ public class Vendedor {
 				case 1:{
 					System.out.println("Nueva venta.");
 					System.out.println();
-					System.out.println("Ingrese la información relativa a la nueva venta:");
+					System.out.println("Ingrese la informacion relativa a la nueva venta:");
 					
 					ArticuloVenta[] listaArticulosVenta;
 					
@@ -87,6 +87,13 @@ public class Vendedor {
 					
 					System.out.println("Nombre Articulo: ");
 					nombreArticulo = scanner.nextLine();
+					
+					while (stub.esArticuloValido(nombreArticulo) == false){
+						System.out.println("Nombre articulo invalido, ingrese el valor nuevamente.");
+						System.out.println("Nombre Articulo: ");
+						nombreArticulo = scanner.nextLine();
+					}
+					
 					System.out.println("Cantidad Deseada: ");
 					cantArticulos = Integer.parseInt(scanner.nextLine()); ///http://stackoverflow.com/questions/13102045/skipping-nextline-after-use-nextint
 					
@@ -100,6 +107,13 @@ public class Vendedor {
 					while (caracter.equals("s")){
 						System.out.println("Nombre Articulo: ");
 						nombreArticulo = scanner.nextLine();
+						
+						while (stub.esArticuloValido(nombreArticulo) == false){
+							System.out.println("Nombre articulo invalido, ingrese el valor nuevamente.");
+							System.out.println("Nombre Articulo: ");
+							nombreArticulo = scanner.nextLine();
+						}
+						
 						System.out.println("Cantidad Deseada: ");
 						cantArticulos = Integer.parseInt(scanner.nextLine());
 						
@@ -121,7 +135,7 @@ public class Vendedor {
 										
 					Venta nuevaVenta = new Venta(nombreComprador, apellidoComprador, numeroDocumentoComprador, anioVenta, mesVenta, diaVenta, listaArticulosVenta);
 					
-					float montoTotalVenta = stub.nuevaVenta(nuevaVenta);
+					float montoTotalVenta = stub.nuevaVenta(nuevaVenta, nombreVendedor);
 					
 					System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||");
 					System.out.println("El monto total de la venta es: " + montoTotalVenta);
@@ -146,7 +160,7 @@ public class Vendedor {
 				default:{
 					System.out.println();
 					System.out.println("#########################################");
-					System.out.println("Opción invalida.");
+					System.out.println("Opcion invalida.");
 					System.out.println("#########################################");
 					System.out.println();
 				}

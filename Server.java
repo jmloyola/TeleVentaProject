@@ -7,12 +7,10 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 	
 public class Server implements InterfazServer {
-    
-    int valor;    
-	
+      
     public Server() throws java.rmi.RemoteException{}
 
-    public float nuevaVenta(InterfazVenta venta) throws java.rmi.RemoteException{
+    public float nuevaVenta(InterfazVenta venta, String vendedor) throws java.rmi.RemoteException{
         System.out.println("Retornando monto de la venta...");
         return 390;
     }
@@ -31,6 +29,12 @@ public class Server implements InterfazServer {
         Venta[] retornoVentas = {ventaAux};
         return retornoVentas;
     }
+	
+	public boolean esArticuloValido(String nombreArticulo) throws RemoteException{
+		System.out.println("Verificando existencia de articulo...");
+		return true;
+	}
+	
     public static void main(String args[]) {
 	
 	try {
