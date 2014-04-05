@@ -80,7 +80,6 @@ public class Venta implements InterfazVenta {
         this.diaVenta = diaVenta;
     }
     
-    
 	
     public void imprimir () throws RemoteException{
         System.out.println("Nombre comprador: " + this.nombreComprador);
