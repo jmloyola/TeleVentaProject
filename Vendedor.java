@@ -135,7 +135,7 @@ public class Vendedor {
 										
 					Venta nuevaVenta = new Venta(nombreComprador, apellidoComprador, numeroDocumentoComprador, anioVenta, mesVenta, diaVenta, listaArticulosVenta);
 					
-					float montoTotalVenta = stub.nuevaVenta(nuevaVenta, nombreVendedor);
+					int montoTotalVenta = stub.nuevaVenta(nuevaVenta, nombreVendedor);
 					
 					System.out.println("|||||||||||||||||||||||||||||||||||||||||||||||||");
 					System.out.println("El monto total de la venta es: " + montoTotalVenta);

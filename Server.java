@@ -10,7 +10,7 @@ public class Server implements InterfazServer {
       
     public Server() throws java.rmi.RemoteException{}
 
-    public float nuevaVenta(InterfazVenta venta, String vendedor) throws java.rmi.RemoteException{
+    public int nuevaVenta(InterfazVenta venta, String vendedor) throws java.rmi.RemoteException{
         System.out.println("Retornando monto de la venta...");
         return 390;
     }
