@@ -146,7 +146,7 @@ public class Vendedor {
 				}
 				case 2:{
 					System.out.println("Las ventas que usted ha realizado son:");
-					Venta[] ventas = stub.listarVentas();
+					Venta[] ventas = stub.listarVentas(nombreVendedor);
 					
 					for (int i=0; i < ventas.length; i++){
 						System.out.println("------------------------------------------");

@@ -122,19 +122,100 @@ public class Server implements InterfazServer {
 			
 			return articulos;
         }catch(Exception e){
-			System.out.println("Error al verificar si el articulo es valido.");
+			System.out.println("Error al listar los articulos.");
 			System.out.println("Informacion del error: " + e.getMessage());
         }
         
     }
     
-    public Venta[] listarVentas()throws java.rmi.RemoteException{
+    public Venta[] listarVentas(String nombreVendedor)throws java.rmi.RemoteException{
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		ResultSet rs2 = null;
+		PreparedStatement pst2 = null;
+		ResultSet rs3 = null;
+		PreparedStatement pst3 = null;
+		ResultSet rs4 = null;
+		PreparedStatement pst4 = null;
+		ResultSet rs5 = null;
+		PreparedStatement pst5 = null;
+		
         System.out.println("Listando ventas...");
-        ArticuloVenta articulo = new ArticuloVenta("auto coleccionable",3);
-        ArticuloVenta[] articuloAux = {articulo};
-        Venta ventaAux = new Venta("Juan", "Perez", "3535353", 2014, 4, 3, articuloAux);
-        Venta[] retornoVentas = {ventaAux};
-        return retornoVentas;
+		
+		String sql = "SELECT COUNT(IdentificadorVenta) FROM VentasArticulos WHERE NombreVendedor=?;";
+		int cantidadVentas;
+		
+		try{
+            pst = conn.prepareStatement(sql);
+			pst.setString(1, nombreVendedor);
+            
+            rs = pst.executeQuery();
+    
+            if (rs.next()){
+                cantidadVentas = rs.getInt(1);
+            }
+			
+			Venta[] ventas = new Venta[cantidadVentas];
+			String sql2 = "SELECT NombreComprador, ApellidoComprador, DocumentoComprador, AnioVenta, MesVenta, DiaVenta, IdentificadorVenta FROM VentasArticulos WHERE NombreVendedor=?;";
+			
+			pst2 = conn.prepareStatement(sql2);
+			pst2.setString(1, nombreVendedor);
+			
+			rs2 = pst2.executeQuery();
+			
+			int k = 0;
+			while (rs2.next()){
+				String nombreComprador = rs2.getString(1);
+				String apellidoComprador = rs2.getString(2);
+				String numeroDocumentoComprador = rs2.getString(3);
+				
+				int anioVenta = rs2.getInt(4);
+				int mesVenta = rs2.getInt(5);
+				int diaVenta = rs2.getInt(6);
+				
+				int identificadorVenta = rs2.getInt(7);
+				
+				String sql3 = "SELECT COUNT(A_NombreArticulo) FROM ArticuloDeVenta WHERE VA_IdentificadorVenta=?;";
+				
+				pst3 = conn.prepareStatement(sql3);
+				pst3.setInt(1, identificadorVenta);
+				
+				rs3 = pst3.executeQuery(); 
+				
+				int cantArticulosVenta;
+				
+				if (rs3.next()){
+					cantArticulosVenta = rs3.getInt(1);
+				}
+				
+				ArticuloVenta[] listaArticulosVenta = new ArticuloVenta[cantArticulosVenta];
+				String sql4 = "SELECT A_NombreArticulo, Cantidad FROM ArticuloDeVenta WHERE VA_IdentificadorVenta=?;";
+				
+				pst4 = conn.prepareStatement(sql4);
+				pst4.setInt(1, identificadorVenta);
+				
+				rs4 = pst4.executeQuery();
+				
+				int j=0;
+				while (rs4.next()){
+					String nombreArticulo = rs4.getString(1);
+					int cantidadArticulo = rs4.getInt(2);
+					
+					ArticuloVenta articulo = new ArticuloVenta(nombreArticulo, cantidadArticulo);
+					listaArticulosVenta[j] = articulo;
+					j++;
+				}
+				Venta venta = new Venta(nombreComprador, apellidoComprador, numeroDocumentoComprador, anioVenta, mesVenta, diaVenta, listaArticulosVenta);
+				
+				ventas[k] = venta;
+				
+				k++;
+			}
+			return ventas;
+        }catch(Exception e){
+			System.out.println("Error al listar las ventas.");
+			System.out.println("Informacion del error: " + e.getMessage());
+        }
     }
 	
 	public boolean esArticuloValido(String nombreArticulo) throws RemoteException{
