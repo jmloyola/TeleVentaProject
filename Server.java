@@ -9,6 +9,14 @@ public class Server implements InterfazServer {
     public Server() throws java.rmi.RemoteException{}
 
     public int nuevaVenta(InterfazVenta venta, String vendedor) throws java.rmi.RemoteException{
+		// define the driver to use 
+		String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+		// the database name  
+		String dbName="VentasDB";
+		// define the Derby connection URL to use 
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+
+		Connection conn = null;
         ResultSet rs = null;
 		PreparedStatement pst = null;
 		PreparedStatement pst2 = null;
@@ -19,8 +27,10 @@ public class Server implements InterfazServer {
 		System.out.println("Retornando monto de la venta...");
 					
 		try{
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(connectionURL);
 			// Buscamos el proximo identificador de venta
-			String sql = "SELECT MAX(IdentificadorVenta) FROM VentasArticulos;";
+			String sql = "SELECT MAX(IdentificadorVenta) FROM VentasArticulos";
             pst = conn.prepareStatement(sql);
             
             rs = pst.executeQuery();
@@ -35,7 +45,7 @@ public class Server implements InterfazServer {
 			}
 			
 			// Insertamos la venta
-			String sql2 = "INSERT INTO VentasArticulos VALUES (?,?,?,?,?,?,?,?);";
+			String sql2 = "INSERT INTO VentasArticulos VALUES (?,?,?,?,?,?,?,?)";
 			
 			pst2 = conn.prepareStatement(sql2);
 			
@@ -55,9 +65,9 @@ public class Server implements InterfazServer {
 			ArticuloVenta[] listaArticulosVenta;
 			
 			listaArticulosVenta = venta.getListaArticulosVenta();
-			
+					
 			for (int k=0; k<listaArticulosVenta.length; k++){
-				String sql3 = "INSERT INTO ArticuloDeVenta VALUES (?,?,?);";
+				String sql3 = "INSERT INTO ArticuloDeVenta VALUES (?,?,?)";
 			
 				pst3 = conn.prepareStatement(sql3);
 				
@@ -70,10 +80,10 @@ public class Server implements InterfazServer {
 				String sql4 = "SELECT PrecioArticulo FROM Articulos WHERE NombreArticulo=?";
 				
 				pst4 = conn.prepareStatement(sql4);
-				pst4.setString(1, nombreArticulo);
+				pst4.setString(1, listaArticulosVenta[k].getNombreArticuloVenta());
 				
 				rs4 = pst4.executeQuery();
-		
+						
 				if (rs4.next()){
 					montoTotalVenta += rs4.getInt(1) * listaArticulosVenta[k].getCantArticuloVenta();
 				}
@@ -83,11 +93,21 @@ public class Server implements InterfazServer {
 			
         }catch(Exception e){
 			System.out.println("Error al insertar nueva venta en la base de datos.");
-			System.out.println("Informacion del error: " + e.getMessage());
+			System.out.println("Informacion del error: " + e.toString());
+			e.printStackTrace();
+			return 0;
         }
     }
     
     public String[] listarArticulos() throws java.rmi.RemoteException{
+		// define the driver to use 
+		String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+		// the database name  
+		String dbName="VentasDB";
+		// define the Derby connection URL to use 
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+
+		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement pst = null;
 		ResultSet rs2 = null;
@@ -95,10 +115,12 @@ public class Server implements InterfazServer {
 		
         System.out.println("Listando articulos...");
 		
-		int cantArticulos;
-        String sql = "SELECT COUNT(NombreArticulo) FROM Articulos;";
+		int cantArticulos = 0;
+        String sql = "SELECT COUNT(NombreArticulo) FROM Articulos";
 		
 		try{
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(connectionURL);
             pst = conn.prepareStatement(sql);
             
             rs = pst.executeQuery();
@@ -108,7 +130,7 @@ public class Server implements InterfazServer {
             }
 			
 			String[] articulos = new String[cantArticulos];
-			String sql2 = "SELECT NombreArticulo FROM Articulos;";
+			String sql2 = "SELECT NombreArticulo FROM Articulos";
 			
 			pst2 = conn.prepareStatement(sql2);
 			
@@ -123,12 +145,22 @@ public class Server implements InterfazServer {
 			return articulos;
         }catch(Exception e){
 			System.out.println("Error al listar los articulos.");
-			System.out.println("Informacion del error: " + e.getMessage());
+			System.out.println("Informacion del error: " + e.toString());
+			e.printStackTrace();
+			return null;
         }
         
     }
     
     public Venta[] listarVentas(String nombreVendedor)throws java.rmi.RemoteException{
+		// define the driver to use 
+		String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+		// the database name  
+		String dbName="VentasDB";
+		// define the Derby connection URL to use 
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+
+		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement pst = null;
 		ResultSet rs2 = null;
@@ -142,10 +174,12 @@ public class Server implements InterfazServer {
 		
         System.out.println("Listando ventas...");
 		
-		String sql = "SELECT COUNT(IdentificadorVenta) FROM VentasArticulos WHERE NombreVendedor=?;";
-		int cantidadVentas;
+		String sql = "SELECT COUNT(IdentificadorVenta) FROM VentasArticulos WHERE NombreVendedor=?";
+		int cantidadVentas = 0;
 		
 		try{
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(connectionURL);
             pst = conn.prepareStatement(sql);
 			pst.setString(1, nombreVendedor);
             
@@ -156,7 +190,7 @@ public class Server implements InterfazServer {
             }
 			
 			Venta[] ventas = new Venta[cantidadVentas];
-			String sql2 = "SELECT NombreComprador, ApellidoComprador, DocumentoComprador, AnioVenta, MesVenta, DiaVenta, IdentificadorVenta FROM VentasArticulos WHERE NombreVendedor=?;";
+			String sql2 = "SELECT NombreComprador, ApellidoComprador, DocumentoComprador, AnioVenta, MesVenta, DiaVenta, IdentificadorVenta FROM VentasArticulos WHERE NombreVendedor=?";
 			
 			pst2 = conn.prepareStatement(sql2);
 			pst2.setString(1, nombreVendedor);
@@ -175,21 +209,21 @@ public class Server implements InterfazServer {
 				
 				int identificadorVenta = rs2.getInt(7);
 				
-				String sql3 = "SELECT COUNT(A_NombreArticulo) FROM ArticuloDeVenta WHERE VA_IdentificadorVenta=?;";
+				String sql3 = "SELECT COUNT(A_NombreArticulo) FROM ArticuloDeVenta WHERE VA_IdentificadorVenta=?";
 				
 				pst3 = conn.prepareStatement(sql3);
 				pst3.setInt(1, identificadorVenta);
 				
 				rs3 = pst3.executeQuery(); 
 				
-				int cantArticulosVenta;
+				int cantArticulosVenta = 0;
 				
 				if (rs3.next()){
 					cantArticulosVenta = rs3.getInt(1);
 				}
 				
 				ArticuloVenta[] listaArticulosVenta = new ArticuloVenta[cantArticulosVenta];
-				String sql4 = "SELECT A_NombreArticulo, Cantidad FROM ArticuloDeVenta WHERE VA_IdentificadorVenta=?;";
+				String sql4 = "SELECT A_NombreArticulo, Cantidad FROM ArticuloDeVenta WHERE VA_IdentificadorVenta=?";
 				
 				pst4 = conn.prepareStatement(sql4);
 				pst4.setInt(1, identificadorVenta);
@@ -214,19 +248,31 @@ public class Server implements InterfazServer {
 			return ventas;
         }catch(Exception e){
 			System.out.println("Error al listar las ventas.");
-			System.out.println("Informacion del error: " + e.getMessage());
+			System.out.println("Informacion del error: " + e.toString());
+			e.printStackTrace();
+			return null;
         }
     }
 	
 	public boolean esArticuloValido(String nombreArticulo) throws RemoteException{
+		// define the driver to use 
+		String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+		// the database name  
+		String dbName="VentasDB";
+		// define the Derby connection URL to use 
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+
+		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement pst = null;
 		
 		System.out.println("Verificando existencia de articulo...");
 		
-		String sql = "SELECT NombreArticulo FROM Articulos WHERE NombreArticulo = ?;";
+		String sql = "SELECT NombreArticulo FROM Articulos WHERE NombreArticulo = ?";
 		
 		try{
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(connectionURL);		 
             pst = conn.prepareStatement(sql);
             pst.setString(1, nombreArticulo);
             
@@ -240,25 +286,15 @@ public class Server implements InterfazServer {
 			}
         }catch(Exception e){
 			System.out.println("Error al verificar si el articulo es valido.");
-			System.out.println("Informacion del error: " + e.getMessage());
+			System.out.println("Informacion del error: " + e.toString());
+			e.printStackTrace();
+			return false;
         }		
 	}
 	
     public static void main(String args[]) {
-		
-		// define the driver to use 
-		String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-		// the database name  
-		String dbName="VentasDB";
-		// define the Derby connection URL to use 
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 
-		Connection conn = null;
-	
-		try {
-			conn = DriverManager.getConnection(connectionURL);		 
-            System.out.println("Conectado a la base de datos " + dbName);
-		
+		try {		
 			Server obj = new Server();
 			InterfazServer stub = (InterfazServer) UnicastRemoteObject.exportObject(obj, 0);
 

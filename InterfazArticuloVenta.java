@@ -3,6 +3,6 @@ import java.io.Serializable;
 
 public interface InterfazArticuloVenta extends Serializable {
     
-    public void imprimir() throws RemoteException;		
+    public void imprimir();		
 	
 }

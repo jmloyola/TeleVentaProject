@@ -4,7 +4,7 @@ CREACION DE TABLAS
 
 CREATE TABLE Articulos(
 	NombreArticulo	VARCHAR(30) NOT NULL PRIMARY KEY,
-	PrecioArticulo INT NOT NULL,
+	PrecioArticulo INT NOT NULL
 );
 
 CREATE TABLE VentasArticulos(
@@ -16,7 +16,7 @@ CREATE TABLE VentasArticulos(
 	MesVenta	INT	NOT NULL,
 	DiaVenta	INT	NOT NULL,
 	IdentificadorVenta	INT	NOT NULL PRIMARY KEY,
-	UNIQUE (NombreVendedor, DocumentoComprador, AnioVenta, MesVenta, DiaVenta),
+	UNIQUE (NombreVendedor, DocumentoComprador, AnioVenta, MesVenta, DiaVenta)
 );
 
 CREATE TABLE ArticuloDeVenta(
@@ -24,7 +24,7 @@ CREATE TABLE ArticuloDeVenta(
 	A_NombreArticulo	VARCHAR(30) NOT NULL,
 	Cantidad	INT NOT NULL,
 	PRIMARY KEY(VA_IdentificadorVenta, A_NombreArticulo),
-	FOREIGN KEY (VA_IdentificadorVenta) REFERENCES VentasArticulos(IdentificadorVenta)
+	FOREIGN KEY (VA_IdentificadorVenta) REFERENCES VentasArticulos(IdentificadorVenta),
 	FOREIGN KEY (A_NombreArticulo) REFERENCES Articulos(NombreArticulo)
 );
 

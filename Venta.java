@@ -81,7 +81,7 @@ public class Venta implements InterfazVenta {
     }
     
 	
-    public void imprimir () throws RemoteException{
+    public void imprimir (){
         System.out.println("Nombre comprador: " + this.nombreComprador);
         System.out.println("Apellido comprador: " + this.apellidoComprador);
         System.out.println("Numero documento comprador: " + this.numeroDocumentoComprador);

@@ -74,7 +74,7 @@ public class Vendedor {
 					
 					Calendar fechaActual = new GregorianCalendar();
 					int anioVenta = fechaActual.get(Calendar.YEAR);
-					int mesVenta = fechaActual.get(Calendar.MONTH);
+					int mesVenta = fechaActual.get(Calendar.MONTH) + 1; // Debo sumar uno porque la representacion de mes comienza en cero
 					int diaVenta = fechaActual.get(Calendar.DAY_OF_MONTH);
 					
 					Scanner scanner = new Scanner(System.in);
@@ -126,12 +126,13 @@ public class Vendedor {
 					}					
 					System.out.println();
 					
-					listaArticulosVenta = new ArticuloVenta[lista.size()];
+					int cantidadArticulos = lista.size();
 					
-					for (int j=0; j < lista.size(); j++){
-						listaArticulosVenta[j] = (ArticuloVenta)lista.peek();
-						lista.remove();
-					}
+					listaArticulosVenta = new ArticuloVenta[cantidadArticulos];
+					
+					for (int j=0; j < cantidadArticulos; j++){
+						listaArticulosVenta[j] = (ArticuloVenta)lista.pop();
+					}				
 										
 					Venta nuevaVenta = new Venta(nombreComprador, apellidoComprador, numeroDocumentoComprador, anioVenta, mesVenta, diaVenta, listaArticulosVenta);
 					

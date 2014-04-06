@@ -28,7 +28,7 @@ public class ArticuloVenta implements InterfazArticuloVenta {
         this.cantArticuloVenta = cantArticuloVenta;
     }
        
-    public void imprimir() throws RemoteException{
+    public void imprimir(){
 	System.out.format("%20s ----- %d", this.nombreArticuloVenta, this.cantArticuloVenta);    
     }
 	
