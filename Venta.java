@@ -82,12 +82,14 @@ public class Venta implements InterfazVenta {
     
 	
     public void imprimir (){
-        System.out.println("Nombre comprador: " + this.nombreComprador);
-        System.out.println("Apellido comprador: " + this.apellidoComprador);
-        System.out.println("Numero documento comprador: " + this.numeroDocumentoComprador);
-        System.out.println("Dia de la venta: " + this.diaVenta);
-        System.out.println("Mes de la venta: " + this.mesVenta);
-        System.out.println("Anio de la venta: " + this.anioVenta);
+        System.out.println("     Nombre comprador: " + this.nombreComprador);
+        System.out.println("     Apellido comprador: " + this.apellidoComprador);
+        System.out.println("     Numero documento comprador: " + this.numeroDocumentoComprador);
+        System.out.println("     Dia de la venta: " + this.diaVenta);
+        System.out.println("     Mes de la venta: " + this.mesVenta);
+        System.out.println("     Anio de la venta: " + this.anioVenta);
+		System.out.println("     Articulos de la venta:");
+		System.out.println();
         
         for (int i=0; i < listaArticulosVenta.length; i++){
             listaArticulosVenta[i].imprimir();

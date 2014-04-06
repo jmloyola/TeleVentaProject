@@ -29,7 +29,8 @@ public class ArticuloVenta implements InterfazArticuloVenta {
     }
        
     public void imprimir(){
-	System.out.format("%20s ----- %d", this.nombreArticuloVenta, this.cantArticuloVenta);    
+	System.out.format("%23s ---------- %d", this.nombreArticuloVenta, this.cantArticuloVenta);    
+	System.out.println();
     }
 	
 }
